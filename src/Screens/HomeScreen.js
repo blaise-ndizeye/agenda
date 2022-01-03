@@ -3,7 +3,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 
-import TaskListScreen from "./TaskListScreen"
+import TaskScreen from "./TaskScreen"
 import EventScreen from "./EventScreen"
 
 const HomeScreen = () => {
@@ -16,14 +16,11 @@ const HomeScreen = () => {
         showLabel: true,
         activeTintColor: "#0000ff",
         inactiveTintColor: "grey",
-        tabStyle: {
-          backgroundColor: "#f4f4f4",
-        },
       }}
     >
       <Tab.Screen
         name="Tasks"
-        component={TaskListScreen}
+        component={TaskScreen}
         options={() => ({
           tabBarLabel: "Tasks",
           tabBarIcon: ({ focused }) => {

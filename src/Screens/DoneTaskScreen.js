@@ -1,12 +1,12 @@
 import React from "react"
 import { View, Text } from "react-native"
 
-const TaskListScreen = () => {
+const DoneTaskScreen = () => {
   return (
     <View>
-      <Text>TaskList Screen</Text>
+      <Text>DoneTaskScreen Screen</Text>
     </View>
   )
 }
 
-export default TaskListScreen
+export default DoneTaskScreen
