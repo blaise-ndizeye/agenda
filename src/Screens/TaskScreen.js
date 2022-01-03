@@ -2,26 +2,27 @@ import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 
-import TaskListScreen from "./TaskListScreen"
 import DoneTaskScreen from "./DoneTaskScreen"
+import Colors from "../utils/colors"
+import TaskStackScreen from "./TaskStackScreen"
 
 const TaskScreen = () => {
   const Tab = createBottomTabNavigator()
 
   return (
     <Tab.Navigator
-      initialRouteName="List"
+      initialRouteName="ListStack"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused }) => {
           let iconName, size, color
-          if (route.name === "List") {
+          if (route.name === "ListStack") {
             iconName = "list"
-            color = focused ? "#0000ff" : "#999"
+            color = focused ? Colors.blue : Colors.gray
             size = focused ? 20 : 12
           }
           if (route.name === "Done") {
             iconName = "check-square"
-            color = focused ? "#0000ff" : "#999"
+            color = focused ? Colors.blue : Colors.gray
             size = focused ? 20 : 12
           }
 
@@ -29,11 +30,11 @@ const TaskScreen = () => {
         },
       })}
       tabBarOptions={{
-        activeBackgroundColor: "#fff",
-        inactiveBackgroundColor: "#ecf0f1",
+        activeBackgroundColor: Colors.white,
+        inactiveBackgroundColor: Colors.light,
       }}
     >
-      <Tab.Screen name="List" component={TaskListScreen} />
+      <Tab.Screen name="ListStack" component={TaskStackScreen} />
       <Tab.Screen name="Done" component={DoneTaskScreen} />
     </Tab.Navigator>
   )

@@ -1,4 +1,4 @@
-import { StatusBar, StyleSheet, View } from "react-native"
+import { StatusBar } from "react-native"
 import { NavigationContainer } from "@react-navigation/native"
 
 import HomeScreen from "./src/Screens/HomeScreen"

@@ -1,12 +1,23 @@
 import React from "react"
-import { View, Text } from "react-native"
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native"
 
-const TaskListScreen = () => {
+import FloatingCircleButton from "../Components/FloatingCircleButton"
+
+const TaskListScreen = ({ navigation }) => {
   return (
-    <View>
+    <View style={styles.container}>
       <Text>TaskList Screen</Text>
+      <FloatingCircleButton
+        onPressHandler={() => navigation.navigate("AddEdit")}
+      />
     </View>
   )
 }
 
 export default TaskListScreen
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+})
