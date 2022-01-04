@@ -23,6 +23,6 @@ const styles = StyleSheet.create({
     elevation: 10,
     position: "absolute",
     bottom: 10,
-    right: 8,
+    left: 120,
   },
 })

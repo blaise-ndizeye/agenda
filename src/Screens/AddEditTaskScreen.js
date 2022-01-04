@@ -15,6 +15,7 @@ import TextWithFont from "../Components/TextWithFont"
 import actionNames from "../Redux/actionNames"
 
 const AddEditTaskScreen = ({ navigation, route }) => {
+  const [taskId, setTaskId] = React.useState("")
   const [title, setTitle] = React.useState("")
   const [body, setBody] = React.useState("")
   const [done, setDone] = React.useState(false)
@@ -23,6 +24,16 @@ const AddEditTaskScreen = ({ navigation, route }) => {
   const state = useSelector((state) => state)
   const dispatch = useDispatch()
 
+  React.useEffect(() => {
+    if (route.params?.data) {
+      const data = route.params?.data
+      setTaskId(data._id)
+      setTitle(data.title)
+      setBody(data.body)
+      setDone(data.done === 1 ? true : false)
+    }
+  }, [route.params])
+
   const onSubmitHandler = () => {
     try {
       if (!title || !body) {
@@ -30,7 +41,7 @@ const AddEditTaskScreen = ({ navigation, route }) => {
         return setErrorMsg("Please provide valid data in the input fields")
       }
       if (route.params?.data) {
-        return alert("Editing functionality not implented yet")
+        dispatch(editTask({ title, body, done, _id: taskId }))
       } else {
         dispatch(addTask({ title, body, done }))
       }
@@ -55,8 +66,8 @@ const AddEditTaskScreen = ({ navigation, route }) => {
   return (
     <ScrollView style={styles.container}>
       <AddEditTitle
-        title="Add task"
-        iconName="plus"
+        title={route.params?.data ? "Edit task" : "Add task"}
+        iconName={route.params?.data ? "edit" : "plus"}
         style={{ marginVertical: 10 }}
       />
       {error && <ShowError message={errorMsg} />}
@@ -67,6 +78,7 @@ const AddEditTaskScreen = ({ navigation, route }) => {
         style={[globalStyles.text_input, { fontFamily: "Indie-Flower" }]}
       />
       <TextInput
+        numberOfLines={4}
         multiline
         value={body}
         placeholder="Write the body..."

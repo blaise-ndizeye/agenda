@@ -4,15 +4,21 @@ import { useDispatch, useSelector } from "react-redux"
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import { Alert } from "react-native"
+import { useFonts } from "expo-font"
+import AppLoading from "expo-app-loading"
 
 import TaskScreen from "./TaskScreen"
 import EventStackScreen from "./EventStackScreen"
 import { createtables } from "../Redux/actions"
+import Colors from "../utils/colors"
 
 const HomeScreen = () => {
   const Tab = createMaterialTopTabNavigator()
   const dispatch = useDispatch()
   const app = useSelector((state) => state.app)
+  const [fontsLoaded] = useFonts({
+    "Indie-Flower": require("../../assets/fonts/IndieFlower-Regular.ttf"),
+  })
 
   React.useEffect(() => {
     try {
@@ -22,14 +28,19 @@ const HomeScreen = () => {
     }
   }, [])
 
+  if (!fontsLoaded) return <AppLoading />
+
   return (
     <Tab.Navigator
       initialRouteName="Tasks"
       tabBarOptions={{
         showIcon: true,
         showLabel: true,
-        activeTintColor: "#0000ff",
-        inactiveTintColor: "grey",
+        activeTintColor: Colors.blue,
+        inactiveTintColor: Colors.gray,
+        labelStyle: {
+          fontFamily: "Indie-Flower",
+        },
       }}
     >
       <Tab.Screen
@@ -42,7 +53,7 @@ const HomeScreen = () => {
               <FontAwesome5
                 name="tasks"
                 size={focused ? 25 : 20}
-                color={focused ? "#0000ff" : "grey"}
+                color={focused ? Colors.blue : Colors.gray}
               />
             )
           },
@@ -58,7 +69,7 @@ const HomeScreen = () => {
               <MaterialIcons
                 name="event"
                 size={focused ? 25 : 20}
-                color={focused ? "#0000ff" : "grey"}
+                color={focused ? Colors.blue : Colors.gray}
               />
             )
           },

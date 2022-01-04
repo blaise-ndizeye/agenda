@@ -1,6 +1,8 @@
 import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
+import { useFonts } from "expo-font"
+import AppLoading from "expo-app-loading"
 
 import DoneTaskScreen from "./DoneTaskScreen"
 import Colors from "../utils/colors"
@@ -8,6 +10,11 @@ import TaskStackScreen from "./TaskStackScreen"
 
 const TaskScreen = () => {
   const Tab = createBottomTabNavigator()
+  const [fontsLoaded] = useFonts({
+    "Indie-Flower": require("../../assets/fonts/IndieFlower-Regular.ttf"),
+  })
+
+  if (!fontsLoaded) return <AppLoading />
 
   return (
     <Tab.Navigator
@@ -34,15 +41,20 @@ const TaskScreen = () => {
         inactiveBackgroundColor: Colors.light,
         labelStyle: {
           fontSize: 12,
+          fontFamily: "Indie-Flower",
         },
       }}
     >
       <Tab.Screen
         name="ListStack"
-        options={{ tabBarLabel: "List" }}
+        options={{ tabBarLabel: "Uncompleted" }}
         component={TaskStackScreen}
       />
-      <Tab.Screen name="Done" component={DoneTaskScreen} />
+      <Tab.Screen
+        name="Done"
+        options={{ tabBarLabel: "Completed" }}
+        component={DoneTaskScreen}
+      />
     </Tab.Navigator>
   )
 }

@@ -37,7 +37,6 @@ export const getTasks = () => (dispatch) => {
       tx.executeSql(`SELECT * FROM Tasks`, [], (tx, results) => {
         let tasks = []
         for (let i = 0; i < results.rows.length; i++) {
-          console.log(results.rows.item(i))
           tasks.push(results.rows.item(i))
         }
         dispatch({
@@ -60,9 +59,13 @@ export const getEvents = () => (dispatch) => {
   try {
     db.transaction((tx) => {
       tx.executeSql(`SELECT * FROM Events`, [], (tx, results) => {
+        let events = []
+        for (let i = 0; i < results.rows.length; i++) {
+          events.push(results.rows.item(i))
+        }
         dispatch({
           type: actionNames.GET_EVENTS,
-          payload: results.rows,
+          payload: events,
         })
       })
     })
