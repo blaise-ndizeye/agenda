@@ -11,6 +11,7 @@ import TaskScreen from "./TaskScreen"
 import EventStackScreen from "./EventStackScreen"
 import { createtables } from "../Redux/actions"
 import Colors from "../utils/colors"
+import AppHeader from "../Components/AppHeader"
 
 const HomeScreen = () => {
   const Tab = createMaterialTopTabNavigator()
@@ -31,51 +32,54 @@ const HomeScreen = () => {
   if (!fontsLoaded) return <AppLoading />
 
   return (
-    <Tab.Navigator
-      initialRouteName="Tasks"
-      tabBarOptions={{
-        showIcon: true,
-        showLabel: true,
-        activeTintColor: Colors.blue,
-        inactiveTintColor: Colors.gray,
-        labelStyle: {
-          fontFamily: "Indie-Flower",
-        },
-      }}
-    >
-      <Tab.Screen
-        name="Tasks"
-        component={TaskScreen}
-        options={() => ({
-          tabBarLabel: "Tasks",
-          tabBarIcon: ({ focused }) => {
-            return (
-              <FontAwesome5
-                name="tasks"
-                size={focused ? 25 : 20}
-                color={focused ? Colors.blue : Colors.gray}
-              />
-            )
+    <>
+      <AppHeader />
+      <Tab.Navigator
+        initialRouteName="Tasks"
+        tabBarOptions={{
+          showIcon: true,
+          showLabel: true,
+          activeTintColor: Colors.blue,
+          inactiveTintColor: Colors.gray,
+          labelStyle: {
+            fontFamily: "Indie-Flower",
           },
-        })}
-      />
-      <Tab.Screen
-        name="Events"
-        component={EventStackScreen}
-        options={({ route }) => ({
-          tabBarLabel: "Events",
-          tabBarIcon: ({ focused }) => {
-            return (
-              <MaterialIcons
-                name="event"
-                size={focused ? 25 : 20}
-                color={focused ? Colors.blue : Colors.gray}
-              />
-            )
-          },
-        })}
-      />
-    </Tab.Navigator>
+        }}
+      >
+        <Tab.Screen
+          name="Tasks"
+          component={TaskScreen}
+          options={() => ({
+            tabBarLabel: "Tasks",
+            tabBarIcon: ({ focused }) => {
+              return (
+                <FontAwesome5
+                  name="tasks"
+                  size={focused ? 25 : 20}
+                  color={focused ? Colors.blue : Colors.gray}
+                />
+              )
+            },
+          })}
+        />
+        <Tab.Screen
+          name="Events"
+          component={EventStackScreen}
+          options={({ route }) => ({
+            tabBarLabel: "Events",
+            tabBarIcon: ({ focused }) => {
+              return (
+                <MaterialIcons
+                  name="event"
+                  size={focused ? 25 : 20}
+                  color={focused ? Colors.blue : Colors.gray}
+                />
+              )
+            },
+          })}
+        />
+      </Tab.Navigator>
+    </>
   )
 }
 
