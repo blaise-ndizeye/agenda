@@ -8,7 +8,7 @@ const TaskListScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Text>TaskList Screen</Text>
       <FloatingCircleButton
-        onPressHandler={() => navigation.navigate("AddEdit")}
+        onPressHandler={() => navigation.navigate("AddEditTask")}
       />
     </View>
   )

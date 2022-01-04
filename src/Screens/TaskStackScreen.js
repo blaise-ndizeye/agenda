@@ -8,13 +8,13 @@ const TaskStackScreen = () => {
   const Stack = createStackNavigator()
   return (
     <Stack.Navigator
-      initialRouteName="List"
+      initialRouteName="TaskList"
       screenOptions={() => ({
         header: () => null,
       })}
     >
-      <Stack.Screen name="List" component={TaskListScreen} />
-      <Stack.Screen name="AddEdit" component={AddEditTaskScreen} />
+      <Stack.Screen name="TaskList" component={TaskListScreen} />
+      <Stack.Screen name="AddEditTask" component={AddEditTaskScreen} />
     </Stack.Navigator>
   )
 }

@@ -32,9 +32,16 @@ const TaskScreen = () => {
       tabBarOptions={{
         activeBackgroundColor: Colors.white,
         inactiveBackgroundColor: Colors.light,
+        labelStyle: {
+          fontSize: 12,
+        },
       }}
     >
-      <Tab.Screen name="ListStack" component={TaskStackScreen} />
+      <Tab.Screen
+        name="ListStack"
+        options={{ tabBarLabel: "List" }}
+        component={TaskStackScreen}
+      />
       <Tab.Screen name="Done" component={DoneTaskScreen} />
     </Tab.Navigator>
   )

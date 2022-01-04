@@ -4,7 +4,7 @@ import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 
 import TaskScreen from "./TaskScreen"
-import EventScreen from "./EventScreen"
+import EventStackScreen from "./EventStackScreen"
 
 const HomeScreen = () => {
   const Tab = createMaterialTopTabNavigator()
@@ -36,7 +36,7 @@ const HomeScreen = () => {
       />
       <Tab.Screen
         name="Events"
-        component={EventScreen}
+        component={EventStackScreen}
         options={({ route }) => ({
           tabBarLabel: "Events",
           tabBarIcon: ({ focused }) => {
