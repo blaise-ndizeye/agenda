@@ -2,6 +2,7 @@ import React from "react"
 import {
   Alert,
   FlatList,
+  RefreshControl,
   StyleSheet,
   TouchableOpacity,
   View,
@@ -10,18 +11,21 @@ import { useDispatch, useSelector } from "react-redux"
 import CheckBox from "expo-checkbox"
 import AntDesign from "react-native-vector-icons/AntDesign"
 
-import { deleteTask, getTasks } from "../Redux/actions"
+import { editTask, deleteTask, getTasks } from "../Redux/actions"
 import FloatingCircleButton from "../Components/FloatingCircleButton"
 import AddEditTitle from "../Components/AddEditTitle"
 import ShowError from "../Components/ShowError"
 import Colors from "../utils/colors"
 import TextWithFont from "../Components/TextWithFont"
+import actionNames from "../Redux/actionNames"
 
 const TaskListScreen = ({ navigation }) => {
+  const [refreshing, setRefreshing] = React.useState(false)
   const [error, setError] = React.useState(false)
   const [errorMsg, setErrorMsg] = React.useState("")
   const dispatch = useDispatch()
   const state = useSelector((state) => state)
+  const data = state.task.tasks.filter((task) => task.done !== 1)
 
   React.useEffect(() => {
     try {
@@ -59,22 +63,55 @@ const TaskListScreen = ({ navigation }) => {
     }
   }
 
+  const onRefreshHandler = () => {
+    try {
+      setRefreshing(true)
+      dispatch(getTasks())
+      setRefreshing(false)
+    } catch (err) {
+      dispatch({ type: actionNames.APP_ERROR, payload: err.message })
+      if (state.app.error) {
+        setError(true)
+        setErrorMsg(state.app.error)
+      }
+    }
+  }
+
+  const onChangeCheckHandler = (task) => {
+    try {
+      dispatch(
+        editTask({
+          title: task.title,
+          body: task.body,
+          done: task.done === 1 ? false : true,
+          _id: task._id,
+        })
+      )
+    } catch (err) {
+      dispatch({ type: actionNames.APP_ERROR, payload: err.message })
+      if (state.app.error) {
+        setError(true)
+        setErrorMsg(state.app.error)
+      }
+    }
+  }
+
   return (
     <View style={styles.container}>
       <AddEditTitle
-        title="List of tasks"
+        title="List of Uncompleted tasks"
         iconName="list"
         style={{ marginVertical: 10 }}
       />
       {error && <ShowError message={errorMsg} />}
-      {state.task.tasks.length === 0 && (
+      {data.length === 0 && (
         <ShowError
-          message="No taks added yet. Click the button below to add more"
+          message="No completed tasks added yet. Click the button below to add more"
           style={{ backgroundColor: Colors.gray }}
         />
       )}
       <FlatList
-        data={state.task.tasks}
+        data={data}
         keyExtractor={(_, index) => index.toString()}
         renderItem={({ item }) => (
           <View style={styles.task_container}>
@@ -82,6 +119,7 @@ const TaskListScreen = ({ navigation }) => {
               <CheckBox
                 value={item.done === 1 ? true : false}
                 color={item.done === 1 ? Colors.blue : Colors.gray}
+                onValueChange={() => onChangeCheckHandler(item)}
               />
             </View>
             <TouchableOpacity
@@ -114,6 +152,13 @@ const TaskListScreen = ({ navigation }) => {
             </View>
           </View>
         )}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefreshHandler}
+            colors={[Colors.red, Colors.blue, Colors.error, Colors.black]}
+          />
+        }
       />
       <FloatingCircleButton
         onPressHandler={() => navigation.navigate("AddEditTask")}
