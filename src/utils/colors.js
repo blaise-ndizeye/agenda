@@ -3,6 +3,9 @@ const Colors = {
   light: "#ecf0f1",
   white: "#fff",
   gray: "#999",
+  error: "#ff6347",
+  black: "#000",
+  red: "#FF0000",
 }
 
 export default Colors

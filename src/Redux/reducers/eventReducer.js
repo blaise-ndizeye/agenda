@@ -11,11 +11,6 @@ const eventReducer = (state = initialState, action) => {
         ...state,
         events: action.payload,
       }
-    case actionNames.ADD_EVENT:
-      return {
-        ...state,
-        events: [action.payload, ...state.events],
-      }
     case actionNames.DELETE_EVENT:
       return {
         ...state,

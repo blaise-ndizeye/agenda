@@ -6,11 +6,6 @@ const initialState = {
 
 const taskReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionNames.ADD_EVENT:
-      return {
-        ...state,
-        tasks: [action.payload, ...state.tasks],
-      }
     case actionNames.GET_TASKS:
       return {
         ...state,
