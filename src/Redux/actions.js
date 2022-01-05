@@ -173,7 +173,7 @@ export const editEvent = (event) => (dispatch) => {
           event?._id,
         ],
         (tx, results) => {
-          dispatch(getTasks())
+          dispatch(getEvents())
         }
       )
     })
@@ -192,7 +192,7 @@ export const addEvent = (event) => (dispatch) => {
     let date = new Date()
     db.transaction((tx) => {
       tx.executeSql(
-        `INSERT INTO Tasks (title, createdAt, updatedAt, body, weather) VALUES ( ?, ?, ?, ?, ?)`,
+        `INSERT INTO Events (title, createdAt, updatedAt, body, weather) VALUES ( ?, ?, ?, ?, ?)`,
         [
           event?.title,
           date.toDateString(),
@@ -201,7 +201,7 @@ export const addEvent = (event) => (dispatch) => {
           event?.weather,
         ],
         (tx, results) => {
-          dispatch(getTasks())
+          dispatch(getEvents())
         }
       )
     })

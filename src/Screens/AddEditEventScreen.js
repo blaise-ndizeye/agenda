@@ -39,7 +39,7 @@ const AddEditEventScreen = ({ navigation, route }) => {
   React.useEffect(() => {
     if (route.params?.data) {
       const data = route.params?.data
-      setTaskId(data._id)
+      setEventId(data._id)
       setTitle(data.title)
       setBody(data.body)
       setWeather(data.weather)

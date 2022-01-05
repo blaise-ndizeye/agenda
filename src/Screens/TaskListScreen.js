@@ -45,7 +45,7 @@ const TaskListScreen = ({ navigation }) => {
     try {
       Alert.alert(
         "WARNING",
-        `Are you sure you want to delete ${task.title} task`,
+        `Are you sure you want to delete ${task.title} task?`,
         [
           { text: "Continue", onPress: () => dispatch(deleteTask(task)) },
           { text: "Cancel" },
