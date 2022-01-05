@@ -17,12 +17,15 @@ import AddEditTitle from "../Components/AddEditTitle"
 import ShowError from "../Components/ShowError"
 import Colors from "../utils/colors"
 import TextWithFont from "../Components/TextWithFont"
+import WarningModal from "../Components/WarningModal"
 import actionNames from "../Redux/actionNames"
 
 const EventListScreen = ({ navigation }) => {
   const [refreshing, setRefreshing] = React.useState(false)
   const [error, setError] = React.useState(false)
   const [errorMsg, setErrorMsg] = React.useState("")
+  const [showWarning, setShowWarning] = React.useState(false)
+  const [eventToDelete, setEventToDelete] = React.useState(null)
   const dispatch = useDispatch()
   const state = useSelector((state) => state)
   const data = state.event.events
@@ -41,19 +44,13 @@ const EventListScreen = ({ navigation }) => {
     }
   }, [])
 
-  const onPressDeleteHandler = (event) => {
+  const onPressContinueDeleteHandler = () => {
     try {
-      Alert.alert(
-        "WARNING",
-        `Are you sure you want to delete ${event.title} event?`,
-        [
-          { text: "Continue", onPress: () => dispatch(deleteEvent(event)) },
-          { text: "Cancel" },
-        ],
-        { cancelable: true }
-      )
+      dispatch(deleteEvent(eventToDelete))
       setError(false)
       setErrorMsg("")
+      setShowWarning(false)
+      setEventToDelete(null)
     } catch (err) {
       dispatch({ type: actionNames.APP_ERROR, payload: err.message })
       if (state.app.error) {
@@ -61,6 +58,11 @@ const EventListScreen = ({ navigation }) => {
         setErrorMsg(state.app.error)
       }
     }
+  }
+
+  const onPressDeleteHandler = (task) => {
+    setShowWarning(true)
+    setEventToDelete(task)
   }
 
   const onRefreshHandler = () => {
@@ -79,6 +81,18 @@ const EventListScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <WarningModal
+        visible={showWarning}
+        onRequestCLose={setShowWarning}
+        title="Warning :"
+        body={`Are you sure you want to delete ${
+          eventToDelete?.title.length > 10
+            ? `${eventToDelete?.title.substring(0, 10)}...`
+            : eventToDelete?.title
+        } event ?`}
+        continueHandler={onPressContinueDeleteHandler}
+        cancelHandler={() => setShowWarning(false)}
+      />
       <AddEditTitle
         title="List of all events"
         iconName="list"

@@ -17,12 +17,15 @@ import AddEditTitle from "../Components/AddEditTitle"
 import ShowError from "../Components/ShowError"
 import Colors from "../utils/colors"
 import TextWithFont from "../Components/TextWithFont"
+import WarningModal from "../Components/WarningModal"
 import actionNames from "../Redux/actionNames"
 
 const TaskListScreen = ({ navigation }) => {
   const [refreshing, setRefreshing] = React.useState(false)
   const [error, setError] = React.useState(false)
   const [errorMsg, setErrorMsg] = React.useState("")
+  const [showWarning, setShowWarning] = React.useState(false)
+  const [taskToDelete, setTaskToDelete] = React.useState(null)
   const dispatch = useDispatch()
   const state = useSelector((state) => state)
   const data = state.task.tasks.filter((task) => task.done !== 1)
@@ -41,19 +44,13 @@ const TaskListScreen = ({ navigation }) => {
     }
   }, [])
 
-  const onPressDeleteHandler = (task) => {
+  const onPressContinueDeleteHandler = () => {
     try {
-      Alert.alert(
-        "WARNING",
-        `Are you sure you want to delete ${task.title} task?`,
-        [
-          { text: "Continue", onPress: () => dispatch(deleteTask(task)) },
-          { text: "Cancel" },
-        ],
-        { cancelable: true }
-      )
+      dispatch(deleteTask(taskToDelete))
       setError(false)
       setErrorMsg("")
+      setShowWarning(false)
+      setTaskToDelete(null)
     } catch (err) {
       dispatch({ type: actionNames.APP_ERROR, payload: err.message })
       if (state.app.error) {
@@ -61,6 +58,11 @@ const TaskListScreen = ({ navigation }) => {
         setErrorMsg(state.app.error)
       }
     }
+  }
+
+  const onPressDeleteHandler = (task) => {
+    setShowWarning(true)
+    setTaskToDelete(task)
   }
 
   const onRefreshHandler = () => {
@@ -98,6 +100,18 @@ const TaskListScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <WarningModal
+        visible={showWarning}
+        onRequestCLose={setShowWarning}
+        title="Warning :"
+        body={`Are you sure you want to delete ${
+          taskToDelete?.title.length > 10
+            ? `${taskToDelete?.title.substring(0, 10)}...`
+            : taskToDelete?.title
+        } task ?`}
+        continueHandler={onPressContinueDeleteHandler}
+        cancelHandler={() => setShowWarning(false)}
+      />
       <AddEditTitle
         title="List of Uncompleted tasks"
         iconName="list"
