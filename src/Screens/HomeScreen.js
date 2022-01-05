@@ -65,7 +65,7 @@ const HomeScreen = () => {
         <Tab.Screen
           name="Events"
           component={EventStackScreen}
-          options={({ route }) => ({
+          options={() => ({
             tabBarLabel: "Events",
             tabBarIcon: ({ focused }) => {
               return (
