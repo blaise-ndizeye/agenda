@@ -6,7 +6,7 @@ const IntroScreen = ({ navigation }) => {
   React.useEffect(() => {
     setTimeout(() => {
       navigation.replace("App")
-    }, 5000)
+    }, 3000)
   }, [])
 
   return <AppIntro />
