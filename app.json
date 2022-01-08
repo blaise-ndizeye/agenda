@@ -18,7 +18,7 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "me.agenda.com",
+      "package": "com.agenda.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon1.png",
         "backgroundColor": "#ecf0f1"
